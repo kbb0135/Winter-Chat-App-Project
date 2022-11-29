@@ -1,0 +1,1 @@
+I will be using react and firebase to work with chat application
