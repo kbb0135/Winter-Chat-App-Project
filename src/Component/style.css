@@ -86,8 +86,7 @@ form h4 {
     text-align: center;
 
 }
-
-label{
+.label{
     display: block;
     margin-top: 30px;
     font-size: 16px;
@@ -107,7 +106,7 @@ input{
 ::placeholder{
     color: #e5e5e5;
 }
-button{
+.button{
     margin-top: 50px;
     width: 100%;
     background-color: #ffffff;
