@@ -8,6 +8,7 @@ const Search = () => {
   const [err, setErr] = useState(false);
   const handleSearch = async () => {
     const q = query(collection(db, "users"), where("firstName", "==", userName));
+    
     try{
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
