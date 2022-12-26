@@ -34,6 +34,7 @@ const Search = () => {
         <img src={user.photoURL} alt="logo"></img>
         <div className="userChatInfo">
           <span>{user.displayName}</span>
+          
         </div>
       </div>}
 
