@@ -7,22 +7,23 @@ const Search = () => {
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
   const handleSearch = async () => {
-    const q = query(collection(db, "users"), where("displayName", "==", userName));
+    const q = query(collection(db, "users"), where("firstName", "==", userName));
     try{
-      
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         setUser(doc.data())
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
+        //console.log(doc.id, " => ", doc.data());
       });
     }
     catch(err) {
+      
       setErr(true);
     }
   }
   const handleKey = e => {
     e.code === "Enter" && handleSearch();
+    //console.log(user.firstName);
   }
   return (
     <div className="search">
@@ -33,7 +34,7 @@ const Search = () => {
       {user && <div className="userChat">
         <img src={user.photoURL} alt="logo"></img>
         <div className="userChatInfo">
-          <span>{user.displayName}</span>
+          <span>{user.firstName}</span>
           
         </div>
       </div>}

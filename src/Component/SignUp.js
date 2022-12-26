@@ -83,20 +83,20 @@ const SignUp = () => {
         <h3>Chat and Chat</h3>
 
         <label htmlFor="username" className="label">First Name</label>
-        <input type="text" placeholder="Enter first name" id="firstName" />
+        <input className="input" type="text" placeholder="Enter first name" id="firstName" />
 
         <label htmlFor="username" className="label">Last Name</label>
-        <input type="text" placeholder="Enter last name" id="lastName" />
+        <input className="input" type="text" placeholder="Enter last name" id="lastName" />
 
         <label htmlFor="username" className="label">Email</label>
-        <input type="text" placeholder="Enter email" id="email" />
+        <input className="input" type="text" placeholder="Enter email" id="email" />
 
         <label htmlFor="password" className="label">Password</label>
-        <input type="password" placeholder="Password" id="password" />
+        <input className="input" type="password" placeholder="Password" id="password" />
 
         <label htmlFor="password" className="label">Password</label>
-        <input type="password" placeholder="Confirm Password" id="cPassword" />
-        <input style={{ display: "none" }} type="file" id="file" />
+        <input className="input" type="password" placeholder="Confirm Password" id="cPassword" />
+        <input className="input" style={{ display: "none" }} type="file" id="file" />
         <label htmlFor="file" className="label">
           <img className="img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjdc3xvioHtGiI4h3saKEzgHBa730AqYeTWw&usqp=CAU" alt="" />
           <span>Add an avatar</span>

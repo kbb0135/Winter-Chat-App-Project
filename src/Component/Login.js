@@ -37,10 +37,10 @@ const Login = () => {
         <h4>Login</h4>
 
         <label htmlFor="username" className="label">Email</label>
-        <input type="text" placeholder="Email or Phone" id="email" />
+        <input className="input" type="text" placeholder="Email or Phone" id="email" />
 
         <label htmlFor="password" className="label">Password</label>
-        <input type="password" placeholder="Password" id="password" />
+        <input className="input" type="password" placeholder="Password" id="password" />
 
         <button className="button">Log In</button>
         <div className="social">
