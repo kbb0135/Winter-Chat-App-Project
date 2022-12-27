@@ -1,29 +1,42 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { AuthContext } from "../context/AuthContext"
+import { ChatContext } from "../context/ChatContext"
+import { db } from "./firebase"
 
 const Chats = () => {
+  const [chats, setChats] = useState([]);
+  const { currentUser } = useContext(AuthContext);
+  const {dispatch} = useContext(ChatContext);
+  useEffect(() => {
+    const getChats = () => {
+      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+        console.log("CurrentData: ", doc.data());
+        setChats(doc.data());
+      });
+      return () => {
+        unsub();
+      }
+    }
+    currentUser.uid && getChats()
+  }, [currentUser.uid])
+
+  const handleSelect =(u) => {
+    dispatch({type: "CHANGE_USER", payload: u});
+  }
+  console.log(chats);
   return (
     <div className='chats'>
-      <div className="userChat">
-        <img src="https://images.pexels.com/photos/3413359/pexels-photo-3413359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="logo"></img>
+      {Object.entries(chats)?.map((chat)=>(
+
+        <div className="userChat" key={chat[0]} onClick={()=>handleSelect(chat[1].userInfo)}>
+        <img src={chat[1].userInfo.photoURL}></img>
         <div className="userChatInfo">
-          <span className="chats">Bibek</span>
-          <p>Hello</p>
+          <span className="chats">{chat[1].userInfo.displayName}</span>
+          <p>{chat[1].userInfo.lastMessage?.text}</p>
         </div>
       </div>
-      <div className="userChat">
-        <img src="https://images.pexels.com/photos/3413359/pexels-photo-3413359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="logo"></img>
-        <div className="userChatInfo">
-          <span className="chats">Bibek</span>
-          <p>Hello</p>
-        </div>
-      </div>
-      <div className="userChat">
-        <img src="https://images.pexels.com/photos/3413359/pexels-photo-3413359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="logo"></img>
-        <div className="userChatInfo">
-          <span className="chats">Bibek</span>
-          <p>Hello</p>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }

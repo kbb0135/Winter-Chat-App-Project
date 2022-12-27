@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { collection, query, where, getDoc, doc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { setDoc, collection, query, where, getDocs, doc, updateDoc, serverTimestamp, getDoc } from "firebase/firestore";
 import { db } from "./firebase"
 import {AuthContext} from "../context/AuthContext"
 
@@ -12,17 +12,18 @@ const Search = () => {
     const q = query(collection(db, "users"), where("firstName", "==", userName));
 
     try{
-      const querySnapshot = await getDoc(q);
+      const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         setUser(doc.data())
         // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
       });
     }
-    catch(err) {
-      
-      setErr(true);
+    
+    catch(err) {   
+      setErr(true); 
     }
+    
   }
   const handleKey = e => {
     e.code === "Enter" && handleSearch();
@@ -34,9 +35,10 @@ const Search = () => {
     try {
       const res = await getDoc(doc(db,"chats", combinedId));
       if(!res.exists()) {
+        await setDoc(doc(db,"chats", combinedId),{ messages: [] });
         //userChats function
         await updateDoc(doc(db,"userChats", currentUser.uid), {
-          [combinedId+"userInfo"]: {
+          [combinedId+".userInfo"]: {
             uid: user.uid,
             displayName: user.firstName,
             photoURL:user.photoURL
@@ -44,7 +46,7 @@ const Search = () => {
           [combinedId+".date"]:serverTimestamp()
         })
         await updateDoc(doc(db,"userChats", user.uid), {
-          [combinedId+"userInfo"]: {
+          [combinedId+".userInfo"]: {
             uid: currentUser.uid,
             displayName: currentUser.firstName,
             photoURL:currentUser.photoURL
@@ -53,14 +55,16 @@ const Search = () => {
         })
       }
     }
-    catch {
-
+    catch(err) {
     }
+    setUser(null);
+    setUserName("")
+
   } 
   return (
     <div className="search">
       <div className='searchForm'>
-        <input type="text" placeholder="Search User" onKeyDown={handleKey} onChange={(e => setUserName(e.target.value))} />
+        <input value={userName} type="text" placeholder="Search User" onKeyDown={handleKey} onChange={(e => setUserName(e.target.value))} />
       </div>
       {err && <span>User not found</span>}
       {user && <div className="userChat" onClick={handleSelect}>

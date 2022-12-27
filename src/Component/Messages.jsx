@@ -1,7 +1,10 @@
-import React from 'react'
+import React,{useContext,useState} from 'react'
 import Message from './Message.jsx'
+import { ChatContext } from '../context/ChatContext';
 
 const Messages = () => {
+  const[messages, setMessages]=useState([])
+  const {data} = useContext(ChatContext)
   return (
     <div className="messages">
       <Message />
