@@ -11,16 +11,16 @@ const SignUp = () => {
   const navigate = useNavigate();
   const handleEvent = async (e) => {
     e.preventDefault();
-    const firstName = e.target[0].value;
+    const displayName = e.target[0].value;
     const lastName = e.target[1].value;
     const email = e.target[2].value;
     const password = e.target[3].value;
     const cPassword = e.target[4].value;
     const file = e.target[5].files[0];
-    console.log(firstName + lastName + email + password + cPassword);
+    console.log(displayName + lastName + email + password + cPassword);
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      const storageRef = ref(storage, firstName);
+      const storageRef = ref(storage, displayName);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on('state_changed',
@@ -48,12 +48,12 @@ const SignUp = () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             console.log('File available at', downloadURL);
             await updateProfile(res.user, {
-              displayName: firstName,
+              displayName: displayName,
               photoURL: downloadURL
             });
             await setDoc(doc(db, "users", res.user.uid), {
               uid: res.user.uid,
-              firstName,
+              displayName,
               lastName,
               email,
               photoURL: downloadURL
@@ -83,7 +83,7 @@ const SignUp = () => {
         <h3>Chat and Chat</h3>
 
         <label htmlFor="username" className="label">First Name</label>
-        <input className="input" type="text" placeholder="Enter first name" id="firstName" />
+        <input className="input" type="text" placeholder="Enter first name" id="displayName" />
 
         <label htmlFor="username" className="label">Last Name</label>
         <input className="input" type="text" placeholder="Enter last name" id="lastName" />
